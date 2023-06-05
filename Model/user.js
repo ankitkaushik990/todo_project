@@ -42,15 +42,13 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    validator: function (type) {
-      const allowedType = ["admin", "user"];
-      if (allowedType.includes(type)) {
-        return;
-      } else {
-        throw new Error(`the user can only be admin or the user  `);
-      }
+    validate: {
+      validator: function (type) {
+        const allowedTypes = ["admin", "user"];
+        return allowedTypes.includes(type);
+      },
+      message: "The user can only be admin or user.",
     },
-    message: "the user can only be admin or the user ",
   },
 });
 
