@@ -52,13 +52,11 @@ exports.verifyToken = async (req, res, next) => {
   try {
     console.log("In verifyToken ", req.headers);
     const authHeader = req.headers.authorization;
-    if (!authHeader)
-      throw new Error({ message: "Access Denied. Please send Token" });
+    if (!authHeader) throw new Error({ message: "no token found" });
 
     const token = authHeader.split(" ")[0];
     if (!token)
-      throw new Error({ message: "Access Denied. Please send Token" });
-    console.log("token " + token);
+      throw new Error({ message: "no token found please send token" });
     const user = await authService.verifyToken(token);
     req.loggedInUser = user;
     next();

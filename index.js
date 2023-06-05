@@ -3,6 +3,7 @@ require("dotenv").config();
 const dbUtils = require("./utils/dbutils");
 const app = express();
 const authRouter = require("./Routes/auth_route");
+const taskRouter = require("./Routes/task_route");
 
 app.use(express.json());
 const PORT = process.env.PORT;
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/task", taskRouter);
 
 app.listen(PORT, () => {
   console.log(`app is listening on ${PORT}`);

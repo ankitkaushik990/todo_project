@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const User = require("../Model/user");
 
 const todoSchema = new mongoose.Schema({
   title: {
@@ -11,44 +13,45 @@ const todoSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  priyority: {
+  priority: {
     type: String,
-    validator: function (type) {
-      const allowedType = ["easy", "medium", "high"];
-      if (allowedType.includes(type)) {
-        return;
-      } else {
-        throw new Error(`priyority can be only set as easy medium or High  `);
-      }
-    },
-    message: "level can be set as easy medium or high ",
     trim: true,
     required: true,
   },
   due_date: {
-    validUntil: Date,
-  },
-  assignee: {
-    type: String,
-  },
-  cerated_on: {
     type: Date,
     required: true,
+  },
+  assignee: {
+    type: [String],
+  },
+  created_on: {
+    type: Date,
     default: Date.now,
+  },
+  created_by: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   status: {
     type: String,
-    validator: function (type) {
-      const allowedType = ["progress", "done"];
-      if (allowedType.includes(type)) {
-        return;
-      } else {
-        throw new Error(`status can only be in - progress and done `);
-      }
-    },
-    message:
-      "type of status can only be marked as Progress and done , would you want it to mark done ? ",
   },
+});
+
+todoSchema.pre("save", function (next) {
+  const allowedPriorities = ["easy", "medium", "high"];
+  const allowedStatuses = ["progress", "done"];
+
+  if (!allowedPriorities.includes(this.priority)) {
+    throw new Error("Priority can only be set as 'easy', 'medium', or 'high'");
+  }
+
+  if (!allowedStatuses.includes(this.status)) {
+    throw new Error("Status can only be set as 'progress' or 'done'");
+  }
+
+  next();
 });
 
 module.exports = mongoose.model("Todo", todoSchema);
