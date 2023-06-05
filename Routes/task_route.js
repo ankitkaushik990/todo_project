@@ -11,7 +11,7 @@ router.route("/create").post(createTask);
 router.route("/get").post(getTask);
 
 // delete a task
-// only creator can delete the task
+// only creator can delete their task
 router.route("/delete/:_id").delete(deleteTask);
 
 module.exports = router;

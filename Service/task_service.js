@@ -1,3 +1,4 @@
+const { error } = require("console");
 const todo = require("../Model/todo");
 const Todo = require("../Model/todo");
 
@@ -54,10 +55,10 @@ exports.delTask = async (_id, created_by) => {
     }
 
     // Delete the task
-    await task.remove();
+    const result = await Todo.deleteOne({ _id });
     return "Task deleted successfully.";
   } catch (error) {
     console.log({ message: error.message });
-    throw new Error(" error while deleting the task.");
+    throw new Error("Error while deleting the task.");
   }
 };
