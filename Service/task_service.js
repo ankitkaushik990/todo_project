@@ -1,6 +1,5 @@
-const { error } = require("console");
-const todo = require("../Model/todo");
 const Todo = require("../Model/todo");
+const User = require("../Model/user");
 
 exports.createTasks = async (
   userId,
@@ -55,10 +54,29 @@ exports.delTask = async (_id, created_by) => {
     }
 
     // Delete the task
-    const result = await Todo.deleteOne({ _id });
+    await Todo.deleteOne({ _id });
     return "Task deleted successfully.";
   } catch (error) {
     console.log({ message: error.message });
     throw new Error("Error while deleting the task.");
+  }
+};
+
+exports.getalltask = async (_id) => {
+  try {
+    const user = findById({ _id });
+    if (!user) {
+      return ` no such user found for this id `;
+    }
+    if (user.role === "admin") {
+      // Code to retrieve and return all tasks
+      const tasks = await Todo.find();
+      return tasks;
+    } else {
+      return `You are not authorized to access all tasks.`;
+    }
+  } catch (error) {
+    console.log({ message: error.message });
+    throw new Error("Error while retrieving tasks.");
   }
 };

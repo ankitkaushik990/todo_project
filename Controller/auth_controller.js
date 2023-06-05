@@ -3,8 +3,8 @@ const authService = require("../Service/auth_service");
 exports.signup = async (req, res) => {
   console.log("In POST register User ");
   try {
-    const { name, email, password, phone } = req.body;
-    const _id = await authService.signup(name, email, password, phone);
+    const { name, email, password, phone, role } = req.body;
+    const _id = await authService.signup(name, email, password, phone, role);
     res.status(201).send({ id: _id });
   } catch (error) {
     console.log(error.message);

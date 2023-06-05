@@ -44,3 +44,14 @@ exports.deleteTask = async (req, res) => {
     res.status(400).json({ error: "Failed to delete tasks" });
   }
 };
+
+exports.getalltask = async (req, res) => {
+  console.log("Admin authorized to view all the task");
+  try {
+    const { _id } = req.params;
+    const tasks = await taskService.getalltask(_id);
+    res.status(200).send(tasks);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to present all the tasks" });
+  }
+};

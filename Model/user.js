@@ -40,6 +40,18 @@ const userSchema = new mongoose.Schema({
   otp: {
     type: String,
   },
+  role: {
+    type: String,
+    validator: function (type) {
+      const allowedType = ["admin", "user"];
+      if (allowedType.includes(type)) {
+        return;
+      } else {
+        throw new Error(`the user can only be admin or the user  `);
+      }
+    },
+    message: "the user can only be admin or the user ",
+  },
 });
 
 // this fucntion would set the p[assword to encrypted password before saving the user into the database

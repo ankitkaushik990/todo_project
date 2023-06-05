@@ -10,16 +10,15 @@ const client = require("twilio")(
 const sendOtp = async function (otp, phone) {
   const message = await client.messages.create({
     body: `Your OTP is ${otp}`,
-    from: "+12706068167",
+    from: "+12545002266",
     to: `+${phone}`,
   });
-  a;
   return message;
 };
 
-exports.signup = async (name, email, password, phone) => {
+exports.signup = async (name, email, password, phone, role) => {
   console.log("In Auth SignUp  ");
-  const user = new User({ name, email, password, phone });
+  const user = new User({ name, email, password, phone, role });
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   user.otp = otp;
   await user.save();
