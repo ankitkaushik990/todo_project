@@ -52,6 +52,7 @@ exports.getalltask = async (req, res) => {
     const tasks = await taskService.getalltask(_id);
     res.status(200).send(tasks);
   } catch (error) {
+    console.error("Failed to present all the tasks:", error);
     res.status(400).json({ error: "Failed to present all the tasks" });
   }
 };

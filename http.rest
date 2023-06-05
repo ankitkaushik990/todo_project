@@ -8,8 +8,8 @@ POST http://localhost:4001/api/auth/signup
 content-type: application/json
 
 {
-"name":"Ankit14",
-"email":"Ankit14@gmail.com",
+"name":"Ankit123",
+"email":"Ankit123@gmail.com",
 "password": "111111",
 "phone":"918930485009",
 "role":"admin"
@@ -87,5 +87,5 @@ content-type: application/json
 
 
 ###
-POST http://localhost:4001/api/task/administration/647da8e08b3664c863c81cbd
+POST http://localhost:4001/api/task/administration/647dd86ae68ae20e29f3b110
 content-type: application/json

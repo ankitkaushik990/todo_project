@@ -64,9 +64,9 @@ exports.delTask = async (_id, created_by) => {
 
 exports.getalltask = async (_id) => {
   try {
-    const user = findById({ _id });
+    const user = await User.findById(_id);
     if (!user) {
-      return ` no such user found for this id `;
+      return `No such user found for this id.`;
     }
     if (user.role === "admin") {
       // Code to retrieve and return all tasks
