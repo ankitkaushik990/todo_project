@@ -1,0 +1,15 @@
+###
+GET http://localhost:4001/
+
+
+// signup the user into the database 
+###
+POST http://localhost:4001/api/auth/signup
+content-type: application/json
+
+{
+"name":"Ankit",
+"email":"Ankit1@gmail.com",
+"password": "111111",
+"phone":"918930485009"
+}
