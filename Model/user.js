@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// this fucntion would set the p[assword to encrypted password before saving the user into the database
 userSchema.pre("save", async function (next) {
   try {
     console.log("Pre Save Hook");
@@ -54,8 +55,10 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+// this function would encrypt the password
+// encryption done here
 const hashPassword = async (password) => {
-  console.log("In hash password", password);
+  console.log(password);
   const salt = await bcrypt.genSalt(10);
   return await bcrypt.hash(password, salt);
 };

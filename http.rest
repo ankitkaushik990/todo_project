@@ -8,8 +8,41 @@ POST http://localhost:4001/api/auth/signup
 content-type: application/json
 
 {
-"name":"Ankit",
-"email":"Ankit1@gmail.com",
+"name":"Ankit12",
+"email":"Ankit12@gmail.com",
 "password": "111111",
 "phone":"918930485009"
+}
+
+
+// to login the user into the database 
+###
+POST http://localhost:4001/api/auth/login
+content-type: application/json
+
+{
+    "email":"Ankit12@gmail.com",
+    "password":"111111"
+}
+
+
+
+// to logout the user into the database 
+###
+POST http://localhost:4001/api/auth/logout
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdkODczOTc2MGQ2YTk3Nzk1MTg3NGQiLCJuYW1lIjoiQW5raXQiLCJlbWFpbCI6IkFua2l0MUBnbWFpbC5jb20iLCJpYXQiOjE2ODU5NTAxNTEsImV4cCI6MTY4NjAzNjU1MX0.du9PCyh3l3MIPE0LkrQXkTgfw8L5coPNXRcXoN_rJr0
+
+
+
+
+// to verify your account using the 6 word otp you received 
+// this will make the user active and able to work further 
+###
+POST http://localhost:4001/api/auth/verify
+content-type: application/json
+
+{
+  "email": "Ankit12@gmail.com",
+  "otp":"930938"
 }
