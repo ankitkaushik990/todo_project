@@ -4,6 +4,8 @@ const dbUtils = require("./utils/dbutils");
 const app = express();
 const authRouter = require("./Routes/auth_route");
 const taskRouter = require("./Routes/task_route");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDoc = require("./swagger.json");
 
 app.use(express.json());
 const PORT = process.env.PORT;
@@ -16,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/task", taskRouter);
-
+app.use("api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.listen(PORT, () => {
   console.log(`app is listening on ${PORT}`);
 });

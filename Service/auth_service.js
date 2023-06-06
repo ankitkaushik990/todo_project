@@ -21,9 +21,13 @@ exports.signup = async (name, email, password, phone, role) => {
   const user = new User({ name, email, password, phone, role });
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   user.otp = otp;
-  await user.save();
-  await sendOtp(otp, phone);
-  return user._id;
+  let send = await sendOtp(otp, phone);
+  if (!send) {
+    throw new Error(` error under twilio`);
+  } else {
+    await user.save();
+    return user._id;
+  }
 };
 
 exports.verifyOtp = async (email, otp) => {
@@ -85,4 +89,27 @@ exports.verifyToken = async (token) => {
   }
   console.log("payload " + payload);
   return user;
+};
+
+exports.disable = async (id) => {
+  console.log("in disabling the account ");
+  await User.findByIdAndUpdate({ _id: id }, { isActive: false });
+};
+
+exports.editAcc = async (id, name, email, password, phone, role) => {
+  console.log("in edtiing the acocunt");
+  const user = await User.findOne({ _id: id });
+  if (!user) {
+    return `user not found`;
+  }
+
+  user.name = name;
+  user.email = email;
+  user.password = password;
+  user.phone = phone;
+  user.role = role;
+
+  await user.save(); // Save the updated user object
+
+  return { name: user.name, email: user.email };
 };

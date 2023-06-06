@@ -5,18 +5,24 @@ const {
   getTask,
   deleteTask,
   getalltask,
+  editTask,
 } = require("../Controller/task_controller");
 
-router.route("/create").post(createTask);
+const { verifyToken } = require("../Controller/auth_controller");
+
+router.route("/create").post(verifyToken, createTask);
 // get task created by the creator only
-router.route("/get").post(getTask);
+router.route("/get").get(verifyToken, getTask);
 
 // delete a task
 // only creator can delete their task
-router.route("/delete/:_id").delete(deleteTask);
+router.route("/delete/:_id").delete(verifyToken, deleteTask);
 
 // Administration role based authorizations
 // admin can view all total task presnet into the db
-router.route("/administration/:_id").post(getalltask);
+router.route("/administration").get(verifyToken, getalltask);
+
+// to edit a task
+// router.route("/edit/task").put(verifyToken, editTask);
 
 module.exports = router;

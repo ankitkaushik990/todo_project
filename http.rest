@@ -1,65 +1,91 @@
+@baseUrl=http://localhost:4001
+
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmMGM5NGViNDY1MTkxZjM1YjNhYjkiLCJuYW1lIjoiQW5raXRrYXVzaGlrMSIsImVtYWlsIjoiQW5raXRrYXVzaGlrMkBnbWFpbC5jb20iLCJpYXQiOjE2ODYwNTA5ODIsImV4cCI6MTY4NjEzNzM4Mn0.LQl3OjRxhiwy75gTOEiviT_27EIKwXSYKiEQL8PIArc
+
+
 ###
-GET http://localhost:4001/
+GET {{baseUrl}}/
 
 
 // signup the user into the database 
 ###
-POST http://localhost:4001/api/auth/signup
+POST {{baseUrl}}/api/auth/signup
 content-type: application/json
 
 {
-"name":"Ankit146",
-"email":"Ankit146@gmail.com",
+"name":"Ankitkaushik1",
+"email":"Ankitkaushik2@gmail.com",
 "password": "111111",
 "phone":"918930485009",
-"role":"abc"
+"role":"Admin"
 }
 
+// to verify your account using the 6 word otp you received 
 
-// to login the user into the database 
+// this will make the user active and able to work further 
 ###
-POST http://localhost:4001/api/auth/login
+POST {{baseUrl}}/api/auth/verify
 content-type: application/json
 
 {
-    "email":"Ankit12@gmail.com",
+  "email": "Ankitkaushik2@gmail.com",
+  "otp":"692433"
+}
+
+// to login the user 
+###
+POST {{baseUrl}}/api/auth/login
+content-type: application/json
+
+{
+    "email":"Ankitkaushik2@gmail.com",
     "password":"111111"
 }
 
 
 
-// to logout the user into the database 
+// to logout the user 
 ###
-POST http://localhost:4001/api/auth/logout
+POST {{baseUrl}}/api/auth/logout
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdkODczOTc2MGQ2YTk3Nzk1MTg3NGQiLCJuYW1lIjoiQW5raXQiLCJlbWFpbCI6IkFua2l0MUBnbWFpbC5jb20iLCJpYXQiOjE2ODU5NTAxNTEsImV4cCI6MTY4NjAzNjU1MX0.du9PCyh3l3MIPE0LkrQXkTgfw8L5coPNXRcXoN_rJr0
+Authorization: {{token}}
 
 
 
-
-// to verify your account using the 6 word otp you received 
-// this will make the user active and able to work further 
+// disable or delete user  ---- Soft delete functanility
 ###
-POST http://localhost:4001/api/auth/verify
+DELETE  {{baseUrl}}/api/auth/disable/account
 content-type: application/json
+Authorization: {{token}}
+
+
+//  editing the all detail of the user 
+###
+PUT {{baseUrl}}/api/auth/edit/account
+content-type: application/json
+Authorization: {{token}}
 
 {
-  "email": "Ankit12@gmail.com",
-  "otp":"930938"
+"name":"Ankit kaushik ",
+"email":"Ankit kaushik@gmail.com",
+"password": "111111",
+"phone":"918930485009",
+"role":"user"
 }
+
 
 
 // the task creation 
 // in assignne we entered the id's of the users who can see this task or for whom the task is created 
 ###
 
-POST http://localhost:4001/api/task/create
+POST {{baseUrl}}/api/task/create
 content-type: application/json
+Authorization: {{token}}
 
 {
-"userId":"647d8739760d6a977951874d",
-"title":"want to fo for a walkk ",
-"description":"walking is good for health",
+"title":"the demo one is here 2",
+"description":"the demo description ",
 "priority": "easy",
 "due_date":"2023-06-10T00:00:00.000Z",
 "assignee":["abc","def"],
@@ -67,25 +93,22 @@ content-type: application/json
 }
 
 
-// to get all the task specified made by particular person 
+// this endpoint will return all the task creatd by the logged in user 
 ###
 
-POST http://localhost:4001/api/task/get
+GET {{baseUrl}}/api/task/get
 content-type: application/json
-
-{
-  "created_by":"647d8739760d6a977951874d"
-}
+Authorization: {{token}}
 
 ###
-DELETE  http://localhost:4001/api/task/delete/647da8e08b3664c863c81cbd
+DELETE  {{baseUrl}}/api/task/delete/647f17002339be27e8e5ef3c
 content-type: application/json
-
-{
-  "created_by":"647d8739760d6a977951874d"
-}
+Authorization: {{token}}
 
 
 ###
-POST http://localhost:4001/api/task/administration/647dd86ae68ae20e29f3b110
+GET {{baseUrl}}/api/task/administration
 content-type: application/json
+Authorization: {{token}}
+
+

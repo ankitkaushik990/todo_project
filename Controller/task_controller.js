@@ -3,10 +3,11 @@ const taskService = require("../Service/task_service");
 exports.createTask = async (req, res) => {
   console.log("In creation of the task ");
   try {
-    const { userId, title, description, priority, due_date, assignee, status } =
+    let loggedInUser = req.loggedInUser;
+    const { title, description, priority, due_date, assignee, status } =
       req.body;
     const _id = await taskService.createTasks(
-      userId,
+      loggedInUser._id,
       title,
       description,
       priority,
@@ -24,9 +25,9 @@ exports.createTask = async (req, res) => {
 exports.getTask = async (req, res) => {
   console.log("get task by id");
   try {
-    const { created_by } = req.body;
+    let loggedInUser = req.loggedInUser;
 
-    const tasks = await taskService.getTasks(created_by);
+    const tasks = await taskService.getTasks(loggedInUser._id);
     res.status(200).send(tasks);
   } catch (error) {
     res.status(400).json({ error: "Failed to get tasks" });
@@ -36,20 +37,20 @@ exports.getTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   console.log("in deletion of the task");
   try {
-    const { created_by } = req.body;
-    const { _id } = req.params;
-    await taskService.delTask(_id, created_by);
+    let loggedInUser = req.loggedInUser;
+    const _id = req.params;
+    await taskService.delTask(_id, loggedInUser._id);
     res.status(200).send("deleted successfully ");
   } catch (error) {
-    res.status(400).json({ error: "Failed to delete tasks" });
+    res.status(400).json({ error: error.message });
   }
 };
 
 exports.getalltask = async (req, res) => {
   console.log("Admin authorized to view all the task");
   try {
-    const { _id } = req.params;
-    const tasks = await taskService.getalltask(_id);
+    let loggedInUser = req.loggedInUser;
+    const tasks = await taskService.getalltask(loggedInUser._id);
     res.status(200).send(tasks);
   } catch (error) {
     console.error("Failed to present all the tasks:", error);

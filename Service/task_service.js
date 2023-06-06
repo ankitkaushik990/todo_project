@@ -25,10 +25,13 @@ exports.createTasks = async (
   return todo._id;
 };
 
-exports.getTasks = async (created_by) => {
+exports.getTasks = async (userId) => {
   console.log(" we get all task created by specified person ");
   try {
-    const tasks = await Todo.find({ created_by });
+    const tasks = await Todo.find({ created_by: userId });
+    if (!tasks) {
+      throw new Error(`No task created by the User `);
+    }
     return tasks;
   } catch (error) {
     console.log({ message: error.message });
@@ -37,7 +40,7 @@ exports.getTasks = async (created_by) => {
 
 // here _id is the task id to delete and created by is the id who created that task
 
-exports.delTask = async (_id, created_by) => {
+exports.delTask = async (_id, userId) => {
   console.log("in service to delete task");
   console.log(_id);
   try {
@@ -49,12 +52,12 @@ exports.delTask = async (_id, created_by) => {
       return "Task not found.";
     }
 
-    if (task.created_by !== created_by) {
+    if (!task.created_by || task.created_by.toString() !== userId.toString()) {
       return "Unauthorized to delete the task.";
     }
 
     // Delete the task
-    await Todo.deleteOne({ _id });
+    await Todo.findOneAndDelete({ _id });
     return "Task deleted successfully.";
   } catch (error) {
     console.log({ message: error.message });

@@ -8,7 +8,7 @@ exports.signup = async (req, res) => {
     res.status(201).send({ id: _id });
   } catch (error) {
     console.log(error.message);
-    res.status(500).send({ message: error.message });
+    res.status(401).send({ message: error.message });
   }
 };
 
@@ -60,6 +60,37 @@ exports.verifyToken = async (req, res, next) => {
     const user = await authService.verifyToken(token);
     req.loggedInUser = user;
     next();
+  } catch (error) {
+    console.log("error in user post ", error);
+    res.status(400).send({ message: error.message });
+  }
+};
+exports.disable = async (req, res) => {
+  console.log("in disabling the account");
+  try {
+    let loggedInUser = req.loggedInUser;
+    await authService.disable(loggedInUser._id);
+    res.status(200).send({ message: "Account disabled" });
+  } catch (error) {
+    console.log("error in user post ", error);
+    res.status(400).send({ message: error.message });
+  }
+};
+
+exports.editAcc = async (req, res) => {
+  console.log("in editing the user ");
+  try {
+    let loggedInUser = req.loggedInUser;
+    const { name, email, password, phone, role } = req.body;
+    const update = await authService.editAcc(
+      loggedInUser._id,
+      name,
+      email,
+      password,
+      phone,
+      role
+    );
+    res.status(200).send({ updated_Successfully: update });
   } catch (error) {
     console.log("error in user post ", error);
     res.status(400).send({ message: error.message });

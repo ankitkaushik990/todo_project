@@ -36,12 +36,14 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
+    // unique: true,
   },
   otp: {
     type: String,
   },
   role: {
     type: String,
+    lowercase: true,
     validate: {
       validator: function (type) {
         const allowedTypes = ["admin", "user"];

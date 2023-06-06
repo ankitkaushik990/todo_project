@@ -17,6 +17,7 @@ const todoSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true,
+    lowercase: true,
   },
   due_date: {
     type: Date,
@@ -36,6 +37,7 @@ const todoSchema = new mongoose.Schema({
   },
   status: {
     type: String,
+    lowercase: true,
   },
 });
 
