@@ -1,7 +1,7 @@
 const taskService = require("../Service/task_service");
 
 exports.createTask = async (req, res) => {
-  console.log("In creation of the task ");
+  // console.log("In creation of the task ");
   try {
     let loggedInUser = req.loggedInUser;
     const { title, description, priority, due_date, assignee, status } =
@@ -23,31 +23,31 @@ exports.createTask = async (req, res) => {
 };
 
 exports.getTask = async (req, res) => {
-  console.log("get task by id");
+  // console.log("get task by id");
   try {
     let loggedInUser = req.loggedInUser;
 
     const tasks = await taskService.getTasks(loggedInUser._id);
     res.status(200).send(tasks);
   } catch (error) {
-    res.status(400).json({ error: "Failed to get tasks" });
+    res.status(401).json({ error: error.message });
   }
 };
 
 exports.deleteTask = async (req, res) => {
-  console.log("in deletion of the task");
+  // console.log("in deletion of the task");
   try {
     let loggedInUser = req.loggedInUser;
     const _id = req.params;
-    await taskService.delTask(_id, loggedInUser._id);
-    res.status(200).send("deleted successfully ");
+    const done = await taskService.delTask(_id, loggedInUser._id);
+    res.status(200).json(done);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 exports.getalltask = async (req, res) => {
-  console.log("Admin authorized to view all the task");
+  // console.log("Admin authorized to view all the task");
   try {
     let loggedInUser = req.loggedInUser;
     const tasks = await taskService.getalltask(loggedInUser._id);
@@ -55,5 +55,47 @@ exports.getalltask = async (req, res) => {
   } catch (error) {
     console.error("Failed to present all the tasks:", error);
     res.status(400).json({ error: "Failed to present all the tasks" });
+  }
+};
+
+exports.editTask = async (req, res) => {
+  // console.log("in editing the presnt task");
+  try {
+    let loggedInUser = req.loggedInUser;
+    let taskid = req.params;
+    const { title, description, priority, assignee, status } = req.body;
+    const task = await taskService.editTask(
+      loggedInUser._id,
+      taskid,
+      title,
+      description,
+      priority,
+      assignee,
+      status
+    );
+    res.status(201).send(task);
+  } catch (error) {
+    // console.error("Failed to present all the tasks:", error);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.assignTask = async (req, res) => {
+  try {
+    const taskid = req.params.id;
+    const user = req.loggedInUser;
+    const { assigneeEmail } = req.body;
+    const task = await taskService.getTask(taskid);
+    if (
+      user._id.toString() != task.created_by.toString() &&
+      user._id.toString() != task.assignee.toString()
+    ) {
+      throw new Error("User not authorized to assign the task");
+    }
+    const result = await taskService.assignTask(taskid, assigneeEmail);
+    res.status(200).send(result);
+  } catch (error) {
+    console.error(" error in assigning task ", error);
+    res.status(400).json({ error: error.message });
   }
 };

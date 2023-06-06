@@ -1,7 +1,6 @@
 @baseUrl=http://localhost:4001
 
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmMGM5NGViNDY1MTkxZjM1YjNhYjkiLCJuYW1lIjoiQW5raXRrYXVzaGlrMSIsImVtYWlsIjoiQW5raXRrYXVzaGlrMkBnbWFpbC5jb20iLCJpYXQiOjE2ODYwNTA5ODIsImV4cCI6MTY4NjEzNzM4Mn0.LQl3OjRxhiwy75gTOEiviT_27EIKwXSYKiEQL8PIArc
-
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmMmJhMDg4MjU3OTI3YWYwMTk4YzMiLCJpYXQiOjE2ODYwNzQxMTAsImV4cCI6MTY4NjE2MDUxMH0.eB5kcA5V00HAVlTCPfs4pzdW9vy_A-Svy6ZpQfUKQcQ
 
 ###
 GET {{baseUrl}}/
@@ -13,11 +12,11 @@ POST {{baseUrl}}/api/auth/signup
 content-type: application/json
 
 {
-"name":"Ankitkaushik1",
-"email":"Ankitkaushik2@gmail.com",
+"name":"Ankit",
+"email":"Ankitkaushik002@gmail.com",
 "password": "111111",
-"phone":"918930485009",
-"role":"Admin"
+"phone":"919068095967",
+"role":"user"
 }
 
 // to verify your account using the 6 word otp you received 
@@ -28,8 +27,8 @@ POST {{baseUrl}}/api/auth/verify
 content-type: application/json
 
 {
-  "email": "Ankitkaushik2@gmail.com",
-  "otp":"692433"
+  "email": "Ankitkaushik002@gmail.com",
+  "otp":"137404"
 }
 
 // to login the user 
@@ -38,7 +37,7 @@ POST {{baseUrl}}/api/auth/login
 content-type: application/json
 
 {
-    "email":"Ankitkaushik2@gmail.com",
+    "email":"Ankitkaushik3@gmail.com",
     "password":"111111"
 }
 
@@ -67,16 +66,15 @@ Authorization: {{token}}
 
 {
 "name":"Ankit kaushik ",
-"email":"Ankit kaushik@gmail.com",
+"email":"Ankitkaushik00@gmail.com",
 "password": "111111",
-"phone":"918930485009",
+"phone":"919068095967",
 "role":"user"
 }
 
 
 
 // the task creation 
-// in assignne we entered the id's of the users who can see this task or for whom the task is created 
 ###
 
 POST {{baseUrl}}/api/task/create
@@ -84,31 +82,56 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-"title":"the demo one is here 2",
+"title":"the demo one is here assignee",
 "description":"the demo description ",
 "priority": "easy",
 "due_date":"2023-06-10T00:00:00.000Z",
-"assignee":["abc","def"],
 "status":"done"
 }
 
 
-// this endpoint will return all the task creatd by the logged in user 
+// this endpoint will return all the task creatd by the logged in user (specific user)
 ###
 
 GET {{baseUrl}}/api/task/get
 content-type: application/json
 Authorization: {{token}}
 
+// to delete the task only creator can delete their task
 ###
-DELETE  {{baseUrl}}/api/task/delete/647f17002339be27e8e5ef3c
+DELETE  {{baseUrl}}/api/task/delete/647f6d10be3127e244691816
 content-type: application/json
 Authorization: {{token}}
 
-
+// get all the task only admin can get 
 ###
 GET {{baseUrl}}/api/task/administration
 content-type: application/json
 Authorization: {{token}}
 
+// to edit the task
+###
+PUT {{baseUrl}}/api/task/edit/task/647f254d12dde3e00614e955
+content-type: application/json
+Authorization: {{token}}
 
+{
+"title":"the new ",
+"description":"the new description ",
+"priority": "easy",
+"due_date":"2023-06-10T00:00:00.000Z",
+"assignee":["abc","def"],
+"status":"done"
+}
+
+// to assign the task to a user 
+// enter the email for whom you want to assign task
+// only the authorized person can assign the task --- who created the task and assignne are Authorized
+###
+POST {{baseUrl}}/api/task/assign/647f72aa38fd238b6ce4e593
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "assigneeEmail":"Ankitkaushik3@gmail.com"
+}

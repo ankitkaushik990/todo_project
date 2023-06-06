@@ -6,6 +6,7 @@ const {
   deleteTask,
   getalltask,
   editTask,
+  assignTask,
 } = require("../Controller/task_controller");
 
 const { verifyToken } = require("../Controller/auth_controller");
@@ -23,6 +24,10 @@ router.route("/delete/:_id").delete(verifyToken, deleteTask);
 router.route("/administration").get(verifyToken, getalltask);
 
 // to edit a task
-// router.route("/edit/task").put(verifyToken, editTask);
+router.route("/edit/task/:_id").put(verifyToken, editTask);
+
+// to addign the task
+
+router.route("/assign/:id").post(verifyToken, assignTask);
 
 module.exports = router;

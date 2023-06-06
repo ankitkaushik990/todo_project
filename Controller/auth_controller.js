@@ -13,7 +13,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.verifyotp = async (req, res) => {
-  console.log("enter your OTP");
+  // console.log("enter your OTP");
   try {
     const { email, otp } = req.body;
     await authService.verifyOtp(email, otp);
@@ -25,7 +25,7 @@ exports.verifyotp = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  console.log("In POST login User ");
+  // console.log("In POST login User ");
   try {
     const { email, password: inputPassword } = req.body;
     const { userId, token } = await authService.login(email, inputPassword);
@@ -43,14 +43,14 @@ exports.logout = async (req, res) => {
     await authService.logout(loggedInUser._id);
     res.status(200).send({ message: "Logged out successfully" });
   } catch (error) {
-    console.log("error in user post ", error);
+    // console.log("error in user post ", error);
     res.status(400).send({ message: error.message });
   }
 };
 
 exports.verifyToken = async (req, res, next) => {
   try {
-    console.log("In verifyToken ", req.headers);
+    // console.log("In verifyToken ", req.headers);
     const authHeader = req.headers.authorization;
     if (!authHeader) throw new Error({ message: "no token found" });
 
@@ -66,7 +66,7 @@ exports.verifyToken = async (req, res, next) => {
   }
 };
 exports.disable = async (req, res) => {
-  console.log("in disabling the account");
+  // console.log("in disabling the account");
   try {
     let loggedInUser = req.loggedInUser;
     await authService.disable(loggedInUser._id);
@@ -78,7 +78,7 @@ exports.disable = async (req, res) => {
 };
 
 exports.editAcc = async (req, res) => {
-  console.log("in editing the user ");
+  // console.log("in editing the user ");
   try {
     let loggedInUser = req.loggedInUser;
     const { name, email, password, phone, role } = req.body;
