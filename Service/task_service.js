@@ -1,6 +1,6 @@
 const Todo = require("../Model/todo");
 const User = require("../Model/user");
-
+const logger = require("../config/logger");
 exports.createTasks = async (
   userId,
   title,
@@ -10,7 +10,7 @@ exports.createTasks = async (
   assignee,
   status
 ) => {
-  // console.log("In creation of the task  ");
+  logger.info("In creation of the task  ");
   const todo = new Todo({
     title,
     description,
@@ -26,7 +26,7 @@ exports.createTasks = async (
 };
 
 exports.getTasks = async (userId) => {
-  // console.log(" we get all task created by specified person ");
+  logger.info(" we get all task created by specified person ");
 
   const tasks = await Todo.find({ created_by: userId });
   if (tasks.length === 0) {
@@ -38,11 +38,10 @@ exports.getTasks = async (userId) => {
 // here _id is the task id to delete and created by is the id who created that task
 
 exports.delTask = async (_id, userId) => {
-  // console.log("in service to delete task");
-  console.log(_id);
+  logger.info("in service to delete task");
+  logger.info(_id);
   // Find the task by ID
   const task = await Todo.findById(_id);
-  // console.log(task);
 
   if (!task) {
     throw new Error("Task not found.");
@@ -61,18 +60,18 @@ exports.getalltask = async (_id) => {
   try {
     const user = await User.findById(_id);
     if (!user) {
-      return `No such user found for this id.`;
+      throw new Error(`No such user found for this id.`);
     }
     if (user.role === "admin") {
       // Code to retrieve and return all tasks
       const tasks = await Todo.find();
       return tasks;
     } else {
-      return `You are not authorized to access all tasks.`;
+      throw new Error(`You are not authorized to access all tasks.`);
     }
   } catch (error) {
-    // console.log({ message: error.message });
-    throw new Error("Error while retrieving tasks.");
+    logger.error({ message: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -87,14 +86,13 @@ exports.editTask = async (
   try {
     // Find the task by ID
     const task = await Todo.findById(taskid);
-    // console.log(task);
 
     if (!task) {
-      return "NO such task found.";
+      throw new Error("NO such task found.");
     }
 
     if (!task.created_by || task.created_by.toString() !== userId.toString()) {
-      return "Unauthorized to edit  the task.";
+      throw new Error("Unauthorized to edit  the task.");
     }
     task.title = title;
     task.description = description;
@@ -104,8 +102,8 @@ exports.editTask = async (
     await task.save();
     return task._id;
   } catch (error) {
-    // console.log({ message: error.message });
-    throw new Error(error);
+    logger.error({ message: error.message });
+    throw new Error(error.message);
   }
 };
 

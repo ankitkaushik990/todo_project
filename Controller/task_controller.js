@@ -1,7 +1,8 @@
 const taskService = require("../Service/task_service");
+const logger = require("../config/logger");
 
 exports.createTask = async (req, res) => {
-  // console.log("In creation of the task ");
+  logger.info("In creation of the task ");
   try {
     let loggedInUser = req.loggedInUser;
     const { title, description, priority, due_date, assignee, status } =
@@ -23,7 +24,7 @@ exports.createTask = async (req, res) => {
 };
 
 exports.getTask = async (req, res) => {
-  // console.log("get task by id");
+  logger.info("get task by id");
   try {
     let loggedInUser = req.loggedInUser;
 
@@ -35,7 +36,7 @@ exports.getTask = async (req, res) => {
 };
 
 exports.deleteTask = async (req, res) => {
-  // console.log("in deletion of the task");
+  logger.info("in deletion of the task");
   try {
     let loggedInUser = req.loggedInUser;
     const _id = req.params;
@@ -47,19 +48,19 @@ exports.deleteTask = async (req, res) => {
 };
 
 exports.getalltask = async (req, res) => {
-  // console.log("Admin authorized to view all the task");
+  logger.info("Admin authorized to view all the task");
   try {
     let loggedInUser = req.loggedInUser;
     const tasks = await taskService.getalltask(loggedInUser._id);
     res.status(200).send(tasks);
   } catch (error) {
-    console.error("Failed to present all the tasks:", error);
-    res.status(400).json({ error: "Failed to present all the tasks" });
+    logger.error("Failed to present all the tasks:", error);
+    res.status(400).json({ error: error.message });
   }
 };
 
 exports.editTask = async (req, res) => {
-  // console.log("in editing the presnt task");
+  logger.info("in editing the presnt task");
   try {
     let loggedInUser = req.loggedInUser;
     let taskid = req.params;
@@ -74,12 +75,13 @@ exports.editTask = async (req, res) => {
     );
     res.status(201).send(task);
   } catch (error) {
-    // console.error("Failed to present all the tasks:", error);
+    logger.error("Failed to modify the tasks:", error);
     res.status(400).json({ error: error.message });
   }
 };
 
 exports.assignTask = async (req, res) => {
+  logger.info("in assigning the task");
   try {
     const taskid = req.params.id;
     const user = req.loggedInUser;
@@ -94,7 +96,7 @@ exports.assignTask = async (req, res) => {
     const result = await taskService.assignTask(taskid, assigneeEmail);
     res.status(200).send(result);
   } catch (error) {
-    console.error(" error in assigning task ", error);
+    logger.error(" error in assigning task ", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -112,7 +114,7 @@ exports.changeStatus = async (req, res) => {
       message: "Task Status changed successfully",
     });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(400).json({
       message: error.message,
     });

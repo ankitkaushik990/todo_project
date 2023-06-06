@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:4001
 
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmNmQ2MmJlMzEyN2UyNDQ2OTE4MWUiLCJpYXQiOjE2ODYwNzc0NDcsImV4cCI6MTY4NjE2Mzg0N30.qiJ-P7vxxR-jd5lKrX19bzM5Em5aEOWPHlYAWuWQhwo
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmOTM2YzgwZmJiOTM5MDRlZjJkNDMiLCJpYXQiOjE2ODYwODM4ODYsImV4cCI6MTY4NjE3MDI4Nn0.qpuFC2WehtJ4XISCOguae28S85RA4F-oP9xTQLC3AHU
 
 ###
 GET {{baseUrl}}/
@@ -13,7 +13,7 @@ content-type: application/json
 
 {
 "name":"Ankit",
-"email":"Ankitkaushik002@gmail.com",
+"email":"Ankitkaushik0@gmail.com",
 "password": "111111",
 "phone":"919068095967",
 "role":"user"
@@ -27,8 +27,8 @@ POST {{baseUrl}}/api/auth/verify
 content-type: application/json
 
 {
-  "email": "Ankitkaushik002@gmail.com",
-  "otp":"137404"
+  "email": "Ankitkaushik0@gmail.com",
+  "otp":"769911"
 }
 
 // to login the user 
@@ -37,7 +37,7 @@ POST {{baseUrl}}/api/auth/login
 content-type: application/json
 
 {
-    "email":"Ankitkaushik002@gmail.com",
+    "email":"Ankitkaushik90@gmail.com",
     "password":"111111"
 }
 
@@ -66,7 +66,7 @@ Authorization: {{token}}
 
 {
 "name":"Ankit kaushik ",
-"email":"Ankitkaushik00@gmail.com",
+"email":"Ankitkaushik90@gmail.com",
 "password": "111111",
 "phone":"919068095967",
 "role":"user"
@@ -111,7 +111,7 @@ Authorization: {{token}}
 // to edit/ modify task by task id 
 //only creator can modify their task
 ###
-PUT {{baseUrl}}/api/task/edit/task/647f8260b816381b172bc5cf
+PUT {{baseUrl}}/api/task/edit/task/647f8260b816381b172bc5cg
 content-type: application/json
 Authorization: {{token}}
 
@@ -144,3 +144,4 @@ Authorization: {{token}}
 {
   "status":"inprogress"
 }
+

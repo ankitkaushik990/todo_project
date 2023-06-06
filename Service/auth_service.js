@@ -17,7 +17,6 @@ const sendOtp = async function (otp, phone) {
 };
 
 exports.signup = async (name, email, password, phone, role) => {
-  // console.log("In Auth SignUp  ");
   const user = new User({ name, email, password, phone, role });
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   user.otp = otp;
@@ -49,7 +48,6 @@ exports.verifyOtp = async (email, otp) => {
 };
 
 exports.login = async (email, inputPassword) => {
-  // console.log("In Auth login  ");
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
@@ -63,19 +61,16 @@ exports.login = async (email, inputPassword) => {
     expiresIn: "1d",
   });
   await User.findOneAndUpdate({ _id: user._id }, { token: token });
-  console.log(user._id);
   return { userId: user._id, token };
 };
 
 exports.logout = async (id) => {
-  // console.log("In Auth logout ");
   const user = await User.findOne({ _id: id });
   user.token = null;
   await User.findOneAndUpdate({ _id: user._id }, { token: "" });
 };
 
 exports.verifyToken = async (token) => {
-  // console.log("In Auth verifyToken ");
   const payload = await jwt.verify(token, process.env.SECRET_KEY);
   const user = await User.findOne({ _id: payload._id });
   if (!user) {
@@ -83,17 +78,14 @@ exports.verifyToken = async (token) => {
   } else if (!user.token || user.token != token) {
     throw new Error("Access Denied. please login");
   }
-  // console.log("payload " + payload);
   return user;
 };
 
 exports.disable = async (id) => {
-  // console.log("in disabling the account ");
-  await User.findByIdAndUpdate({ _id: id }, { isActive: false });
+  await User.findByIdAndUpdate({ _id: id }, { isActive: false, token: "" });
 };
 
 exports.editAcc = async (id, name, email, password, phone, role) => {
-  // console.log("in edtiing the acocunt");
   const user = await User.findOne({ _id: id });
   if (!user) {
     return `user not found`;
