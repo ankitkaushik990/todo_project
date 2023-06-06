@@ -7,6 +7,7 @@ const {
   getalltask,
   editTask,
   assignTask,
+  changeStatus,
 } = require("../Controller/task_controller");
 
 const { verifyToken } = require("../Controller/auth_controller");
@@ -29,5 +30,8 @@ router.route("/edit/task/:_id").put(verifyToken, editTask);
 // to addign the task
 
 router.route("/assign/:id").post(verifyToken, assignTask);
+
+// status assign
+router.route("/status/:id").post(verifyToken, changeStatus);
 
 module.exports = router;

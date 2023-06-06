@@ -40,19 +40,20 @@ const todoSchema = new mongoose.Schema({
   status: {
     type: String,
     lowercase: true,
+    default: "todo",
   },
 });
 
 todoSchema.pre("save", function (next) {
   const allowedPriorities = ["easy", "medium", "high"];
-  const allowedStatuses = ["progress", "done"];
+  const allowedStatuses = ["inprogress", "done", "todo"];
 
   if (!allowedPriorities.includes(this.priority)) {
     throw new Error("Priority can only be set as 'easy', 'medium', or 'high'");
   }
 
   if (!allowedStatuses.includes(this.status)) {
-    throw new Error("Status can only be set as 'progress' or 'done'");
+    throw new Error("Status can only be set as 'inprogress','done'OR 'todo'");
   }
 
   next();

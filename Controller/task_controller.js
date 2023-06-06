@@ -63,15 +63,14 @@ exports.editTask = async (req, res) => {
   try {
     let loggedInUser = req.loggedInUser;
     let taskid = req.params;
-    const { title, description, priority, assignee, status } = req.body;
+    const { title, description, priority, assignee } = req.body;
     const task = await taskService.editTask(
       loggedInUser._id,
       taskid,
       title,
       description,
       priority,
-      assignee,
-      status
+      assignee
     );
     res.status(201).send(task);
   } catch (error) {
@@ -97,5 +96,25 @@ exports.assignTask = async (req, res) => {
   } catch (error) {
     console.error(" error in assigning task ", error);
     res.status(400).json({ error: error.message });
+  }
+};
+
+exports.changeStatus = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const task = await taskService.getTask(id);
+    const user = req.loggedInUser;
+
+    const status = req.body.status;
+
+    await taskService.changeStatus(id, status, user);
+    res.status(200).json({
+      message: "Task Status changed successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: error.message,
+    });
   }
 };

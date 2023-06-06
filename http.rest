@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:4001
 
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmMmJhMDg4MjU3OTI3YWYwMTk4YzMiLCJpYXQiOjE2ODYwNzQxMTAsImV4cCI6MTY4NjE2MDUxMH0.eB5kcA5V00HAVlTCPfs4pzdW9vy_A-Svy6ZpQfUKQcQ
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmNmQ2MmJlMzEyN2UyNDQ2OTE4MWUiLCJpYXQiOjE2ODYwNzc0NDcsImV4cCI6MTY4NjE2Mzg0N30.qiJ-P7vxxR-jd5lKrX19bzM5Em5aEOWPHlYAWuWQhwo
 
 ###
 GET {{baseUrl}}/
@@ -37,7 +37,7 @@ POST {{baseUrl}}/api/auth/login
 content-type: application/json
 
 {
-    "email":"Ankitkaushik3@gmail.com",
+    "email":"Ankitkaushik002@gmail.com",
     "password":"111111"
 }
 
@@ -85,8 +85,7 @@ Authorization: {{token}}
 "title":"the demo one is here assignee",
 "description":"the demo description ",
 "priority": "easy",
-"due_date":"2023-06-10T00:00:00.000Z",
-"status":"done"
+"due_date":"2023-06-10T00:00:00.000Z"
 }
 
 
@@ -109,29 +108,39 @@ GET {{baseUrl}}/api/task/administration
 content-type: application/json
 Authorization: {{token}}
 
-// to edit the task
+// to edit/ modify task by task id 
+//only creator can modify their task
 ###
-PUT {{baseUrl}}/api/task/edit/task/647f254d12dde3e00614e955
+PUT {{baseUrl}}/api/task/edit/task/647f8260b816381b172bc5cf
 content-type: application/json
 Authorization: {{token}}
 
 {
-"title":"the new ",
+"title":"the hook ",
 "description":"the new description ",
 "priority": "easy",
-"due_date":"2023-06-10T00:00:00.000Z",
-"assignee":["abc","def"],
-"status":"done"
+"due_date":"2023-06-10T00:00:00.000Z"
 }
 
 // to assign the task to a user 
 // enter the email for whom you want to assign task
 // only the authorized person can assign the task --- who created the task and assignne are Authorized
 ###
-POST {{baseUrl}}/api/task/assign/647f72aa38fd238b6ce4e593
+POST {{baseUrl}}/api/task/assign/647f7b6dba1e5e2e4782917c
 content-type: application/json
 Authorization: {{token}}
 
 {
   "assigneeEmail":"Ankitkaushik3@gmail.com"
+}
+
+// to change the status of the task 
+// only assignne for whom task is assigned can be able to change the status of the task
+###
+POST {{baseUrl}}/api/task/status/647f850664484f24e09b3a4a
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "status":"inprogress"
 }

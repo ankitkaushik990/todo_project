@@ -82,8 +82,7 @@ exports.editTask = async (
   title,
   description,
   priority,
-  assignee,
-  status
+  assignee
 ) => {
   try {
     // Find the task by ID
@@ -101,7 +100,6 @@ exports.editTask = async (
     task.description = description;
     task.priority = priority;
     task.assignee = assignee;
-    task.status = status;
 
     await task.save();
     return task._id;
@@ -129,5 +127,51 @@ exports.assignTask = async (taskid, assigneeEmail) => {
 exports.getTask = async (id) => {
   const task = await Todo.findById(id);
   if (!task) throw new Error("Task not found");
+  return task;
+};
+
+exports.changeStatus = async (id, status, user) => {
+  const availableStatus = [
+    "ToDo",
+    "In Progress",
+    "Done",
+    "todo",
+    "inprogress",
+    "done",
+  ];
+  const task = await Todo.findById(id);
+  if (!task) throw new Error("Task not found");
+  if (!task.assignee || task.assignee.toString() != user._id.toString())
+    throw new Error("User not authorized to change status");
+  if (status == "todo") {
+    if (task.status == "todo") {
+      //update status
+      await Todo.findOneAndUpdate(
+        { _id: id },
+        { status: status },
+        { new: true }
+      );
+    } else throw new Error("Invalid Transition");
+  } else if (status == "inprogress") {
+    if (task.status == "todo") {
+      //update status
+      await Todo.findOneAndUpdate(
+        { _id: id },
+        { status: status },
+        { new: true }
+      );
+    } else throw new Error("Invalid Transition");
+  } else if (status == "done") {
+    if (task.status == "inprogress") {
+      //update status
+      await Todo.findOneAndUpdate(
+        { _id: id },
+        { status: status },
+        { new: true }
+      );
+    } else throw new Error("Invalid Transition");
+  }
+  if (!availableStatus.includes(status)) throw new Error("Invalid Status");
+  await task.save();
   return task;
 };
