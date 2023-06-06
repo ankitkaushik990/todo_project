@@ -72,7 +72,11 @@ Authorization: {{token}}
 "role":"user"
 }
 
-
+// delete the user permanently from db 
+###
+DELETE {{baseUrl}}/api/auth/delete/account
+content-type: application/json
+Authorization: {{token}}
 
 // the task creation 
 ###

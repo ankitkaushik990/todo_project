@@ -101,3 +101,8 @@ exports.editAcc = async (id, name, email, password, phone, role) => {
 
   return { name: user.name, email: user.email };
 };
+
+exports.delAcc = async (id) => {
+  await User.findByIdAndDelete(id);
+  return;
+};

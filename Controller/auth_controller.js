@@ -98,3 +98,14 @@ exports.editAcc = async (req, res) => {
     res.status(400).send({ message: error.message });
   }
 };
+
+exports.delAcc = async (req, res) => {
+  try {
+    let user = req.loggedInUser;
+    await authService.delAcc(user._id);
+    res.status(200).send(`deleted_Successfully`);
+  } catch (error) {
+    logger.error(error.message);
+    res.status(400).send({ message: error.message });
+  }
+};
