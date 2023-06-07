@@ -11,81 +11,38 @@
     }
   ],
   "paths": {
-    "/": {
-      "get": {
-        "summary": "Get the first page of the site",
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/auth/signup": {
       "post": {
-        "summary": "Create a new user account",
+        "tags": ["Authentication"],
+        "summary": "Signup a new user",
+        "description": "Signup a new user and store their information in the database",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "phone": {
-                    "type": "string"
-                  },
-                  "role": {
-                    "type": "string"
-                  }
-                },
-                "required": ["name", "email", "password", "phone", "role"]
+                "$ref": "#/components/schemas/SignupRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "201": {
-            "description": "Account created successfully",
+            "description": "User created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/SignupResponse"
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad request",
+          "401": {
+            "description": "Error occurred during signup",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -95,56 +52,36 @@
     },
     "/api/auth/login": {
       "post": {
-        "summary": "User login",
+        "tags": ["Authentication"],
+        "summary": "Login a user",
+        "description": "Authenticate a user and generate an access token",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "required": ["email", "password"]
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "Successful login",
+            "description": "User logged in successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "userId": {
-                      "type": "string"
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request",
+            "description": "Invalid credentials",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -154,25 +91,18 @@
     },
     "/api/auth/verify": {
       "post": {
-        "summary": "Verify account with OTP",
+        "tags": ["Authentication"],
+        "summary": "Verify user account",
+        "description": "Verify user account using the provided OTP",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "otp": {
-                    "type": "string"
-                  }
-                },
-                "required": ["email", "otp"]
+                "$ref": "#/components/schemas/VerifyRequest"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -180,27 +110,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/VerifyResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request",
+            "description": "Error occurred during verification",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -210,10 +130,12 @@
     },
     "/api/auth/logout": {
       "post": {
-        "summary": "Logout user",
+        "tags": ["Authentication"],
+        "summary": "Logout a user",
+        "description": "Logout a user and invalidate the provided access token",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -222,12 +144,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/LogoutResponse"
                 }
               }
             }
@@ -237,12 +154,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -250,27 +162,23 @@
         }
       }
     },
-
     "/api/auth/disable/account": {
       "delete": {
+        "tags": ["Authentication"],
         "summary": "Disable user account",
+        "description": "Disable a user account and update the user's status in the database",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "User account disabled successfully",
+            "description": "Account disabled",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/DisableAccountResponse"
                 }
               }
             }
@@ -280,12 +188,85 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/edit/account": {
+      "put": {
+        "tags": ["Authentication"],
+        "summary": "Edit user account",
+        "description": "Edit user account information",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditAccountResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occurred during account editing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/delete/account": {
+      "delete": {
+        "tags": ["Authentication"],
+        "summary": "Delete user permanently",
+        "description": "Delete a user account permanently from the system",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAccountResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -295,8 +276,190 @@
     }
   },
   "components": {
+    "schemas": {
+      "SignupRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "abc",
+          "email": "abc@gmail.com",
+          "password": "111111",
+          "phone": "911234567890",
+          "role": "user"
+        }
+      },
+      "SignupResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": "604a1b4688b092001f6db591"
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Error occurred during signup"
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "ankitkaushik3@gmail.com",
+          "password": "111111"
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "userId": "604a1b4688b092001f6db591",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDRhMWI0Njg4YjA5MjAwMWY2ZGI1OTEiLCJpYXQiOjE2MjQ0OTYwOTksImV4cCI6MTYyNDU4MjQ5OX0.T5vzjAZsW3-csiXVtw4ln3dfHf7UwXyWEHhwbSXaSD4"
+        }
+      },
+      "VerifyRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "otp": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "ankitkaushik80@gmail.com",
+          "otp": "226938"
+        }
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Account Verified, welcome"
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "User logged out successfully"
+        }
+      },
+      "DisableAccountResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Account disabled successfully"
+        }
+      },
+      "EditAccountRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "abc",
+          "email": "abc@gmail.com",
+          "password": "111111",
+          "phone": "911234567890",
+          "role": "user"
+        }
+      },
+      "EditAccountResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Account updated successfully"
+        }
+      },
+      "DeleteAccountResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Account deleted successfully"
+        }
+      }
+    },
     "securitySchemes": {
-      "BearerAuth": {
+      "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
