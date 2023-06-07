@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/task", taskRouter);
-app.use("api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.listen(PORT, () => {
   logger.info(`app is listening on ${PORT}`);
 });

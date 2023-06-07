@@ -56,7 +56,7 @@ exports.verifyToken = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) throw new Error({ message: "no token found" });
 
-    const token = authHeader.split(" ")[0];
+    const token = authHeader.split(" ")[1] || authHeader.split(" ")[0];
     if (!token)
       throw new Error({ message: "no token found please send token" });
     const user = await authService.verifyToken(token);

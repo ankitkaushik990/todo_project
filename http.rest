@@ -1,6 +1,6 @@
 @baseUrl=http://localhost:4001
 
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmOTM2YzgwZmJiOTM5MDRlZjJkNDMiLCJpYXQiOjE2ODYwODM4ODYsImV4cCI6MTY4NjE3MDI4Nn0.qpuFC2WehtJ4XISCOguae28S85RA4F-oP9xTQLC3AHU
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmMmJhMDg4MjU3OTI3YWYwMTk4YzMiLCJpYXQiOjE2ODYxMTYwNzgsImV4cCI6MTY4NjIwMjQ3OH0.nhIGdk5PWDv_fi_TkXqjPb_JO97Y6JfjLjxHjNVehCM
 
 ###
 GET {{baseUrl}}/
@@ -13,7 +13,7 @@ content-type: application/json
 
 {
 "name":"Ankit",
-"email":"Ankitkaushik0@gmail.com",
+"email":"Ankitkaushik80@gmail.com",
 "password": "111111",
 "phone":"919068095967",
 "role":"user"
@@ -27,8 +27,8 @@ POST {{baseUrl}}/api/auth/verify
 content-type: application/json
 
 {
-  "email": "Ankitkaushik0@gmail.com",
-  "otp":"769911"
+  "email": "Ankitkaushik80@gmail.com",
+  "otp":"226938"
 }
 
 // to login the user 
@@ -37,7 +37,7 @@ POST {{baseUrl}}/api/auth/login
 content-type: application/json
 
 {
-    "email":"Ankitkaushik90@gmail.com",
+    "email":"Ankitkaushik3@gmail.com",
     "password":"111111"
 }
 
@@ -47,7 +47,7 @@ content-type: application/json
 ###
 POST {{baseUrl}}/api/auth/logout
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 
 
@@ -55,18 +55,18 @@ Authorization: {{token}}
 ###
 DELETE  {{baseUrl}}/api/auth/disable/account
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 
 //  editing the all detail of the user 
 ###
 PUT {{baseUrl}}/api/auth/edit/account
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 {
 "name":"Ankit kaushik ",
-"email":"Ankitkaushik90@gmail.com",
+"email":"Ankitkaushik11@gmail.com",
 "password": "111111",
 "phone":"919068095967",
 "role":"user"
@@ -76,17 +76,17 @@ Authorization: {{token}}
 ###
 DELETE {{baseUrl}}/api/auth/delete/account
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 // the task creation 
 ###
 
 POST {{baseUrl}}/api/task/create
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 {
-"title":"the demo one is here assignee",
+"title":"the test is here assignee",
 "description":"the demo description ",
 "priority": "easy",
 "due_date":"2023-06-10T00:00:00.000Z"
@@ -98,26 +98,26 @@ Authorization: {{token}}
 
 GET {{baseUrl}}/api/task/get
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 // to delete the task only creator can delete their task
 ###
 DELETE  {{baseUrl}}/api/task/delete/647f6d10be3127e244691816
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 // get all the task only admin can get 
 ###
 GET {{baseUrl}}/api/task/administration
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 // to edit/ modify task by task id 
 //only creator can modify their task
 ###
-PUT {{baseUrl}}/api/task/edit/task/647f8260b816381b172bc5cg
+PUT {{baseUrl}}/api/task/edit/task/6480169710b42a938115f6a4
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 {
 "title":"the hook ",
@@ -130,9 +130,9 @@ Authorization: {{token}}
 // enter the email for whom you want to assign task
 // only the authorized person can assign the task --- who created the task and assignne are Authorized
 ###
-POST {{baseUrl}}/api/task/assign/647f7b6dba1e5e2e4782917c
+POST {{baseUrl}}/api/task/assign/6480169710b42a938115f6a4
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 {
   "assigneeEmail":"Ankitkaushik3@gmail.com"
@@ -141,9 +141,9 @@ Authorization: {{token}}
 // to change the status of the task 
 // only assignne for whom task is assigned can be able to change the status of the task
 ###
-POST {{baseUrl}}/api/task/status/647f850664484f24e09b3a4a
+POST {{baseUrl}}/api/task/status/6480169710b42a938115f6a4
 content-type: application/json
-Authorization: {{token}}
+Authorization:Bearer {{token}}
 
 {
   "status":"inprogress"
