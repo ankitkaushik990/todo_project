@@ -275,7 +275,7 @@
         }
       }
     },
-    "/task/create": {
+    "/api/task/create": {
       "post": {
         "tags": ["Task"],
         "summary": "Create a new task",
