@@ -17,7 +17,7 @@ content-type: application/json
 "name":"Ankit",
 "email":"Abc@gmail.com",
 "password": "111111",
-"phone":"919068095967",
+"phone":"91222222222",
 "role":"user"
 }
 
@@ -39,7 +39,7 @@ POST {{baseUrl}}/api/auth/login
 content-type: application/json
 
 {
-    "email":"Ankitkaushik3@gmail.com",
+    "email":"Ankitkaushik9@gmail.com",
     "password":"111111"
 }
 
@@ -70,7 +70,7 @@ Authorization:Bearer {{token}}
 "name":"Ankit kaushik ",
 "email":"Ankitkaushik11@gmail.com",
 "password": "111111",
-"phone":"919068095967",
+"phone":"912222222222",
 "role":"user"
 }
 
@@ -150,4 +150,3 @@ Authorization:Bearer {{token}}
 {
   "status":"inprogress"
 }
-
