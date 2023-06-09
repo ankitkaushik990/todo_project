@@ -7,12 +7,12 @@
   },
   "servers": [
     {
-      "url": "https://to-do-ntrh.onrender.com"
+      "url": "http://localhost:4001"
     }
   ],
   "schemes": ["http", "https"],
   "paths": {
-    "/api/auth/signup": {
+    "/user/signup": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Signup a new user",
@@ -43,7 +43,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorUpSignup"
                 }
               }
             }
@@ -51,7 +51,7 @@
         }
       }
     },
-    "/api/auth/login": {
+    "/user/login": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Login a user",
@@ -90,7 +90,7 @@
         }
       }
     },
-    "/api/auth/verify": {
+    "/user/verify": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Verify user account",
@@ -129,7 +129,7 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/user/logout": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Logout a user",
@@ -163,7 +163,7 @@
         }
       }
     },
-    "/api/auth/disable/account": {
+    "/user/disable": {
       "delete": {
         "tags": ["Authentication"],
         "summary": "Disable user account",
@@ -197,7 +197,7 @@
         }
       }
     },
-    "/api/auth/edit/account": {
+    "/user/edit": {
       "put": {
         "tags": ["Authentication"],
         "summary": "Edit user account",
@@ -241,7 +241,7 @@
         }
       }
     },
-    "/api/auth/delete/account": {
+    "/user/account": {
       "delete": {
         "tags": ["Authentication"],
         "summary": "Delete user permanently",
@@ -275,7 +275,7 @@
         }
       }
     },
-    "/api/task/create": {
+    "/task/create": {
       "post": {
         "tags": ["Task"],
         "summary": "Create a new task",
@@ -319,7 +319,7 @@
         }
       }
     },
-    "/api/task/get": {
+    "/task": {
       "get": {
         "tags": ["Task"],
         "summary": "Get tasks created by the logged-in user",
@@ -355,10 +355,327 @@
           }
         }
       }
+    },
+    "/task/{_id}": {
+      "delete": {
+        "tags": ["Task"],
+        "summary": "Delete a task",
+        "description": "Deletes a task identified by its ID",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "ID of the task to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "647f6d10be3127e244691816"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Task deleted successfully."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error deleting the task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized to delete the task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/administration": {
+      "get": {
+        "tags": ["Task"],
+        "summary": "Get all tasks",
+        "description": "Retrieves all tasks (only accessible by admin)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tasks retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized to access all tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/edit/{taskid}": {
+      "put": {
+        "tags": ["Task"],
+        "summary": "Edit a task",
+        "description": "Modifies an existing task (only accessible by the task creator)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the task to edit"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task modified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error modifying the task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized to edit the task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/assign/{taskid}": {
+      "post": {
+        "tags": ["Task"],
+        "summary": "assign An Id to the user ",
+        "description": "Assign the task by Assignne ID ",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the task to assign the user "
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task modified successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error modifying the task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized to edit the task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/status/{id}": {
+      "post": {
+        "summary": "Change task status",
+        "tags": ["Task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Task ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task status changed successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": ["todo", "inprogress", "done"]
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AssignRequest": {
+        "type": "object",
+        "properties": {
+          "assigneeEmail": {
+            "type": "string"
+          }
+        }
+      },
       "SignupRequest": {
         "type": "object",
         "properties": {
@@ -398,7 +715,7 @@
           "id": "604a1b4688b092001f6db591"
         }
       },
-      "Error": {
+      "ErrorUpSignup": {
         "type": "object",
         "properties": {
           "message": {
@@ -612,6 +929,24 @@
           "status",
           "created_by"
         ]
+      },
+      "EditTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "due_date": {
+            "type": "string"
+          }
+        },
+        "required": ["title"]
       },
       "Error": {
         "type": "object",

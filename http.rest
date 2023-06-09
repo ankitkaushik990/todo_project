@@ -4,7 +4,7 @@
 
 # @baseUrl=https://to-do-ntrh.onrender.com
 
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdmMmJhMDg4MjU3OTI3YWYwMTk4YzMiLCJpYXQiOjE2ODYxMTYwNzgsImV4cCI6MTY4NjIwMjQ3OH0.nhIGdk5PWDv_fi_TkXqjPb_JO97Y6JfjLjxHjNVehCM
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgyY2UzNjRmNDViNTFhNWEyMWU4MzkiLCJpYXQiOjE2ODYyOTQyMDksImV4cCI6MTY4NjM4MDYwOX0.m6yXlKQ0fREixABpgkQgiUXhKioIWGKhStkZ7MiV8O4
 
 ###
 GET {{baseUrl}}/
@@ -12,22 +12,22 @@ GET {{baseUrl}}/
 
 // signup the user into the database 
 ###
-POST {{baseUrl}}/api/auth/signup
+POST {{baseUrl}}/user/signup
 content-type: application/json
 
 {
-"name":"Ankit",
-"email":"Abc@gmail.com",
+"name":"A",
+"email":"A",
 "password": "111111",
-"phone":"91222222222",
-"role":"user"
+"phone":"919068095967",
+"role":"admin"
 }
 
 // to verify your account using the 6 word otp you received 
 
 // this will make the user active and able to work further 
 ###
-POST {{baseUrl}}/api/auth/verify
+POST {{baseUrl}}/user/verify
 content-type: application/json
 
 {
@@ -37,11 +37,11 @@ content-type: application/json
 
 // to login the user 
 ###
-POST {{baseUrl}}/api/auth/login
+POST {{baseUrl}}/user/login
 content-type: application/json
 
 {
-    "email":"an@gmail.com",
+    "email":"A",
     "password":"111111"
 }
 
@@ -49,7 +49,7 @@ content-type: application/json
 
 // to logout the user 
 ###
-POST {{baseUrl}}/api/auth/logout
+POST {{baseUrl}}/user/logout
 content-type: application/json
 Authorization:Bearer {{token}}
 
@@ -57,20 +57,20 @@ Authorization:Bearer {{token}}
 
 // disable or delete user  ---- Soft delete functanility
 ###
-DELETE  {{baseUrl}}/api/auth/disable/account
+DELETE  {{baseUrl}}/user/disable
 content-type: application/json
 Authorization:Bearer {{token}}
 
 
 //  editing the all detail of the user 
 ###
-PUT {{baseUrl}}/api/auth/edit/account
+PUT {{baseUrl}}/user/edit
 content-type: application/json
 Authorization:Bearer {{token}}
 
 {
 "name":"Ankit kaushik ",
-"email":"Ankitkaushik11@gmail.com",
+"email":"an@gmail.com",
 "password": "111111",
 "phone":"912222222222",
 "role":"user"
@@ -78,19 +78,19 @@ Authorization:Bearer {{token}}
 
 // delete the user permanently from db 
 ###
-DELETE {{baseUrl}}/api/auth/delete/account
+DELETE {{baseUrl}}/user/account
 content-type: application/json
 Authorization:Bearer {{token}}
 
 // the task creation 
 ###
 
-POST {{baseUrl}}/api/task/create
+POST {{baseUrl}}/task/create
 content-type: application/json
 Authorization:Bearer {{token}}
 
 {
-"title":"the test is here assignee",
+"title":"the an",
 "description":"the demo description ",
 "priority": "easy",
 "due_date":"2023-06-10T00:00:00.000Z"
@@ -100,31 +100,31 @@ Authorization:Bearer {{token}}
 // this endpoint will return all the task creatd by the logged in user (specific user)
 ###
 
-GET {{baseUrl}}/api/task/get
+GET {{baseUrl}}/task
 content-type: application/json
 Authorization:Bearer {{token}}
 
 // to delete the task only creator can delete their task
 ###
-DELETE  {{baseUrl}}/api/task/delete/647f6d10be3127e244691816
+DELETE  {{baseUrl}}/task/647f6d10be3127e244691816
 content-type: application/json
 Authorization:Bearer {{token}}
 
 // get all the task only admin can get 
 ###
-GET {{baseUrl}}/api/task/administration
+GET {{baseUrl}}/task/administration
 content-type: application/json
 Authorization:Bearer {{token}}
 
 // to edit/ modify task by task id 
 //only creator can modify their task
 ###
-PUT {{baseUrl}}/api/task/edit/task/6480169710b42a938115f6a4
+PUT {{baseUrl}}/task/edit/6481941617c58f42f1291c7e
 content-type: application/json
 Authorization:Bearer {{token}}
 
 {
-"title":"the hook ",
+"title":"the update  ",
 "description":"the new description ",
 "priority": "easy",
 "due_date":"2023-06-10T00:00:00.000Z"
@@ -134,18 +134,18 @@ Authorization:Bearer {{token}}
 // enter the email for whom you want to assign task
 // only the authorized person can assign the task --- who created the task and assignne are Authorized
 ###
-POST {{baseUrl}}/api/task/assign/6480169710b42a938115f6a4
+POST {{baseUrl}}/task/assign/6482ced14f45b51a5a21e843
 content-type: application/json
 Authorization:Bearer {{token}}
 
 {
-  "assigneeEmail":"Ankitkaushik3@gmail.com"
+  "assigneeEmail":"Ankitkaushik11@gmail.com"
 }
 
 // to change the status of the task 
 // only assignne for whom task is assigned can be able to change the status of the task
 ###
-POST {{baseUrl}}/api/task/status/6480169710b42a938115f6a4
+POST {{baseUrl}}/task/status/6480169710b42a938115f6a4
 content-type: application/json
 Authorization:Bearer {{token}}
 
