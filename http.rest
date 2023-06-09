@@ -19,7 +19,7 @@ content-type: application/json
 "name":"A",
 "email":"A",
 "password": "111111",
-"phone":"919068095967",
+"phone":"911234567890",
 "role":"admin"
 }
 
