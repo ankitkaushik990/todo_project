@@ -4,7 +4,7 @@
 
 # @baseUrl=https://to-do-ntrh.onrender.com
 
-@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgyY2UzNjRmNDViNTFhNWEyMWU4MzkiLCJpYXQiOjE2ODYyOTQyMDksImV4cCI6MTY4NjM4MDYwOX0.m6yXlKQ0fREixABpgkQgiUXhKioIWGKhStkZ7MiV8O4
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgyYzI3YWM0NzU5ZTQ2NTlhOWM1YTUiLCJpYXQiOjE2ODY0OTI4MTMsImV4cCI6MTY4NjU3OTIxM30.hzASKtKNI6MJgtUVLxJAkt-G0J0Daun1INLCw9wJ0jI
 
 ###
 GET {{baseUrl}}/
@@ -16,11 +16,11 @@ POST {{baseUrl}}/user/signup
 content-type: application/json
 
 {
-"name":"A",
-"email":"A",
+"name":"NISHANT",
+"email":"ABC@GMAIL.COM",
 "password": "111111",
-"phone":"911234567890",
-"role":"admin"
+"phone":"9",
+"role":"user"
 }
 
 // to verify your account using the 6 word otp you received 
@@ -31,8 +31,8 @@ POST {{baseUrl}}/user/verify
 content-type: application/json
 
 {
-  "email": "Ankitkaushik80@gmail.com",
-  "otp":"226938"
+  "email": "Ankitkaushik11@gmail.com",
+  "otp":"687491"
 }
 
 // to login the user 
@@ -41,7 +41,7 @@ POST {{baseUrl}}/user/login
 content-type: application/json
 
 {
-    "email":"A",
+    "email":"Ankitkaushik11@gmail.com",
     "password":"111111"
 }
 
@@ -90,8 +90,8 @@ content-type: application/json
 Authorization:Bearer {{token}}
 
 {
-"title":"the an",
-"description":"the demo description ",
+"title":"SUBMIT A FILE BEFORE SIX",
+"description":"the demo ",
 "priority": "easy",
 "due_date":"2023-06-10T00:00:00.000Z"
 }
@@ -106,7 +106,7 @@ Authorization:Bearer {{token}}
 
 // to delete the task only creator can delete their task
 ###
-DELETE  {{baseUrl}}/task/647f6d10be3127e244691816
+DELETE  {{baseUrl}}/task/647f6d10be3127e24469181
 content-type: application/json
 Authorization:Bearer {{token}}
 
@@ -134,7 +134,7 @@ Authorization:Bearer {{token}}
 // enter the email for whom you want to assign task
 // only the authorized person can assign the task --- who created the task and assignne are Authorized
 ###
-POST {{baseUrl}}/task/assign/6482ced14f45b51a5a21e843
+POST {{baseUrl}}/task/assign/6485d49e8b67f578a7db8472
 content-type: application/json
 Authorization:Bearer {{token}}
 
@@ -145,10 +145,10 @@ Authorization:Bearer {{token}}
 // to change the status of the task 
 // only assignne for whom task is assigned can be able to change the status of the task
 ###
-POST {{baseUrl}}/task/status/6480169710b42a938115f6a4
+POST {{baseUrl}}/task/status/6485d49e8b67f578a7db8472
 content-type: application/json
 Authorization:Bearer {{token}}
 
 {
-  "status":"inprogress"
+  "status":"done"
 }

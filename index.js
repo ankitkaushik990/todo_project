@@ -13,9 +13,9 @@ const PORT = process.env.PORT;
 
 dbUtils.initDB();
 
-app.get("/", (req, res) => {
-  res.send("welcome to the first page of the site");
-});
+// app.get("/", (req, res) => {
+//   res.send("welcome to the first page of the site");
+// });
 
 app.use("/user", authRouter);
 app.use("/task", taskRouter);
