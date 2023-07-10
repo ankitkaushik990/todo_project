@@ -1,8 +1,8 @@
-@baseUrl=http://localhost:4001
+# @baseUrl=http://localhost:4001
 
-// "https://to-do-ntrh.onrender.com"
+ @baseUrl="https://to-do-ntrh.onrender.com"
 
-# @baseUrl=https://to-do-ntrh.onrender.com
+
 
 @token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgyYzI3YWM0NzU5ZTQ2NTlhOWM1YTUiLCJpYXQiOjE2ODY0OTI4MTMsImV4cCI6MTY4NjU3OTIxM30.hzASKtKNI6MJgtUVLxJAkt-G0J0Daun1INLCw9wJ0jI
 
@@ -16,10 +16,10 @@ POST {{baseUrl}}/user/signup
 content-type: application/json
 
 {
-"name":"NISHANT",
+"name":"Ankit",
 "email":"ABC@GMAIL.COM",
 "password": "111111",
-"phone":"9",
+"phone":"90123456789",
 "role":"user"
 }
 
