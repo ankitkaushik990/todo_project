@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+var cors = require("cors");
 const dbUtils = require("./utils/dbutils");
 const app = express();
 const authRouter = require("./Routes/auth_route");
@@ -7,7 +8,7 @@ const taskRouter = require("./Routes/task_route");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDoc = require("./swagger.json");
 const logger = require("./config/logger");
-
+app.use(cors());
 app.use(express.json());
 const PORT = process.env.PORT;
 
